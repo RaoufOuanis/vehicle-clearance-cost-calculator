@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التكاليف والرسوم الجمركية لاستيراد السيارات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            direction: rtl;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(to left, #2c3e50, #4a6491);
+            color: white;
+            border-radius: 8px;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .description {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        th, td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background-color: #4a6491;
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tr:hover {
+            background-color: #e9ecef;
+        }
+        .term {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        .cost {
+            font-weight: 700;
+            color: #27ae60;
+            white-space: nowrap;
+        }
+        .total-cost {
+            font-weight: 700;
+            color: #2980b9;
+            white-space: nowrap;
+        }
+        .penalty-cost {
+            font-weight: 700;
+            color: #c0392b;
+            white-space: nowrap;
+        }
+        .french-term {
+            font-style: italic;
+            color: #7f8c8d;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .total-row {
+            background-color: #e8f4fc !important;
+            font-weight: bold;
+        }
+        .penalty-row {
+            background-color: #f9ebea !important;
+        }
+        .period-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background-color: #5d6d7e;
+            color: white;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        .note {
+            font-size: 14px;
+            color: #7d6608;
+            margin-top: 4px;
+            display: block;
+        }
+        @media (max-width: 768px) {
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+            th, td {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-right: 4px solid #ffc107;
+        }
+        .dynamic-value {
+            background-color: #fffde7;
+            padding: 2px 5px;
+            border-radius: 3px;
+            border: 1px dashed #f57c00;
+        }
+        .summary-row {
+            background-color: #d4edda !important;
+            font-weight: bold;
+        }
+        .editable-cost {
+            width: 100px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .section-header {
+            background-color: #e9ecef;
+            font-weight: bold;
+        }
+        .checkbox-column {
+            width: 70px;
+            text-align: center;
+            padding: 0 !important;
+        }
+        
+        /* الحل الجديد للمحاذاة */
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        td {
+            vertical-align: middle;
+            height: 60px;
+            box-sizing: border-box;
+        }
+        
+        .checkbox-cell {
+            padding: 0;
+            height: 60px;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+        
+        .checkbox-cell input[type="checkbox"],
+        .checkbox-cell input[type="radio"] {
+            width: 28px;
+            height: 28px;
+            margin: 0;
+            vertical-align: middle;
+            position: relative;
+            top: 0;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>التكاليف والرسوم الجمركية لاستيراد السيارات</h1>
+            <p class="description">جدول تفصيلي ديناميكي للرسوم والتكاليف المرتبطة باستيراد السيارات في الجزائر</p>
+        </header>
+
+        <div class="highlight">
+            <strong>ملاحظة هامة:</strong> المدة المجانية للحاوية هي 15 يوم، بعدها تبدأ غرامات التأخير ورسوم التخزين. يمكنك تعديل القيم مباشرة في الجدول.
+        </div>
+
+        <table id="costsTable">
+            <thead>
+                <tr>
+                    <th width="25%">المصطلح</th>
+                    <th width="45%">الوصف</th>
+                    <th width="20%">التكلفة</th>
+                    <th class="checkbox-column">تضمين</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- المصاريف الثابتة -->
+                <tr class="section-header">
+                    <td colspan="4">المصاريف الثابتة</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="term">رسوم التبادل</span>
+			<span class="french-term">Échange</span>
+                        
+                    </td>
+                    <td>رسوم إدارية مرتبطة بإجراءات التبادل وإصدار الوثائق الجمركية</td>
+                    <td class="cost">20,000 دج</td>
+                    <td class="checkbox-cell"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="term">الخبرة التقنية</span>
+			<span class="french-term">Expertise</span>
+                        
+                    </td>
+                    <td>فحص السيارة من طرف خبير تقني للتأكد من حالتها والمطابقة</td>
+                    <td class="cost">10,000 دج</td>
+                    <td class="checkbox-cell"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="term">رسوم التحويل</span>
+			<span class="french-term">Frais de Transfert</span>
+                        
+                    </td>
+                    <td>تكلفة تحويل السيارة أو الحاوية نحو ساحة أخرى أو ميناء جاف</td>
+                    <td class="cost">6,000 دج</td>
+                    <td class="checkbox-cell"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="term">المناولة</span>
+			<span class="french-term">Manutention</span>
+                    
+                    </td>
+                    <td>استعمال الرافعات واليد العاملة لتفريغ/تحميل الحاوية</td>
+                    <td class="cost">5,000 دج</td>
+                    <td class="checkbox-cell"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="term">تفريغ الحاوية</span>
+			<span class="french-term">Dépotage</span>
+                        
+                    </td>
+                    <td>إخراج السيارة من داخل الحاوية في الرصيف</td>
+                    <td class="cost">6,000 دج</td>
+                    <td class="checkbox-cell"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="term">النقل الداخلي</span>
+			<span class="french-term">Transport</span>
+                        
+                    </td>
+                    <td>نقل السيارة من الميناء إلى مستودع أو ساحة أخرى</td>
+                    <td class="cost">5,000 دج</td>
+                    <td class="checkbox-cell"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="term">وكيل العبور</span>
+			<span class="french-term">Transitaire</span>
+                        
+                    </td>
+                    <td>أتعاب وكيل العبور الذي يتكفل بالإجراءات الإدارية والجمركية</td>
+                    <td class="cost">50,000 دج</td>
+                    <td class="checkbox-cell"></td>
+                </tr>
+                
+                <!-- المصاريف المتغيرة -->
+                <tr class="section-header">
+                    <td colspan="4">المصاريف المتغيرة</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="term">التخزين</span>
+			<span class="french-term">Magasinage</span>
+                        
+                    </td>
+                    <td>
+                         إيجار مساحة في الميناء لتخزين السيارة بعد التفريغ بالدينار الجزائري
+                        <span class="note">(تبدأ بعد انتهاء المدة المجانية)</span>
+                    </td>
+                    <td class="cost">
+                        <input type="number" class="editable-cost" id="storageCost" value="7000">
+                    </td>
+                    <td class="checkbox-cell"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="term">غرامات التأخير</span>
+			<span class="french-term">Surestaries</span>
+                        
+                    </td>
+                    <td>
+                        غرامة لشركة الشحن عند تجاوز المدة المجانية للحاوية بالدينار الجزائري
+                        <span class="note">(تبدأ بعد انتهاء المدة المجانية)</span>
+                    </td>
+                    <td class="cost">
+                        <input type="number" class="editable-cost" id="penaltyCost" value="5000">
+                    </td>
+                    <td class="checkbox-cell"></td>
+                </tr>
+                
+                <!-- المجاميع للفترات المختلفة -->
+                <tr class="section-header">
+                    <td colspan="4">المجاميع للفترات المختلفة</td>
+                </tr>
+                
+                <!-- أقل من 15 يوم -->
+                <tr class="total-row">
+                    <td>
+                        <span class="term">المجموع لأقل من 15 يوم</span>
+                    </td>
+                    <td>المجموع الكلي خلال المدة المجانية (15 يوم الأولى)</td>
+                    <td class="total-cost"><span id="totalLess15Days">102,000</span> دج</td>
+                    <td class="checkbox-cell">
+                        <input type="radio" name="period" id="periodLess15Days" value="less15Days" checked>
+                    </td>
+                </tr>
+                
+                <!-- ثلاثة أسابيع -->
+                <tr class="total-row">
+                    <td>
+                        <span class="term">المجموع لثلاثة أسابيع</span>
+                    </td>
+                    <td>المجموع الكلي لـ 21 يوم (بما فيها 6 أيام تخزين وغرامات)</td>
+                    <td class="total-cost"><span id="totalThreeWeeks">180,000</span> دج</td>
+                    <td class="checkbox-cell">
+                        <input type="radio" name="period" id="periodThreeWeeks" value="threeWeeks">
+                    </td>
+                </tr>
+                
+                <!-- شهر -->
+                <tr class="total-row">
+                    <td>
+                        <span class="term">المجموع لشهر</span>
+                    </td>
+                    <td>المجموع الكلي لـ 30 يوم (بما فيها 15 يوم تخزين وغرامات)</td>
+                    <td class="total-cost"><span id="totalMonth">282,000</span> دج</td>
+                    <td class="checkbox-cell">
+                        <input type="radio" name="period" id="periodMonth" value="month">
+                    </td>
+                </tr>
+                
+                <!-- شهر ونصف -->
+                <tr class="total-row">
+                    <td>
+                        <span class="term">المجموع لشهر ونصف</span>
+                    </td>
+                    <td>المجموع الكلي لـ 45 يوم (بما فيها 30 يوم تخزين وغرامات)</td>
+                    <td class="total-cost"><span id="totalMonthHalf">462,000</span> دج</td>
+                    <td class="checkbox-cell">
+                        <input type="radio" name="period" id="periodMonthHalf" value="monthHalf">
+                    </td>
+                </tr>
+                
+                <!-- الضرائب والرسوم -->
+                <tr class="section-header">
+                    <td colspan="4">الضرائب والرسوم</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="term">جمركة السيارة</span>
+			<span class="french-term">Droits de Douane + TVA</span>
+                        
+                    </td>
+                    <td>ضريبة تدفع لمصالح الجمارك وتختلف حسب نوع السيارة وحالتها (جديدة/مستعملة)</td>
+                    <td class="cost">
+                        <input type="number" class="editable-cost" id="customsCost" value="200000">
+                    </td>
+                    <td class="checkbox-cell"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="term">قسيمة السيارة الجديدة</span>
+			<span class="french-term">Taxe nouveau véhicule</span>
+                    </td>
+                    <td>ضريبة إضافية ثابتة على السيارات الجديدة</td>
+                    <td class="cost">150,000 دج</td>
+                    <td class="checkbox-cell">
+                        <input type="checkbox" id="includeNewCarFee">
+                    </td>
+                </tr>
+                
+                <!-- غرامة عدم التسجيل -->
+                <tr class="penalty-row">
+                    <td>
+                        <span class="term">غرامة عدم التسجيل في الآجال</span>
+			<span class="french-term">Pénalité de retard de l'enregistrement</span>
+                    </td>
+                    <td>غرامة عدم تسجيل الحاوية في الآجال القانوني (5 أيام بعد وصول الحاوية)</td>
+                    <td class="penalty-cost">37,500 - 50,000 دج</td>
+                    <td class="checkbox-cell">
+                        <input type="checkbox" id="includeRegistrationPenalty">
+                    </td>
+                </tr>
+                
+                <!-- المجموع الكلي مع الخيارات -->
+                <tr class="summary-row">
+                    <td>
+                        <span class="term">المجموع الكلي المختار</span>
+                    </td>
+                    <td>المجموع الكلي مع الخيارات المحددة أعلاه</td>
+                    <td class="total-cost"><span id="totalSelected">302,000</span> دج</td>
+                    <td class="checkbox-cell"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <footer>
+            <p>تم إنشاء الجدول بناءً على المعلومات المقدمة - جميع الأسعار بالدينار الجزائري (دج)</p>
+            <p>ملاحظة: الفترة المجانية للحاوية هي 15 يوم، بعدها تبدأ غرامات التأخير ورسوم التخزين</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // العناصر التي سنتفاعل معها
+            const storageCostInput = document.getElementById('storageCost');
+            const penaltyCostInput = document.getElementById('penaltyCost');
+            const customsCostInput = document.getElementById('customsCost');
+            const includeNewCarFeeCheckbox = document.getElementById('includeNewCarFee');
+            const includeRegistrationPenaltyCheckbox = document.getElementById('includeRegistrationPenalty');
+            const periodRadios = document.querySelectorAll('input[name="period"]');
+            
+            // العناصر التي سيتم تحديثها
+            const totalLess15DaysElem = document.getElementById('totalLess15Days');
+            const totalThreeWeeksElem = document.getElementById('totalThreeWeeks');
+            const totalMonthElem = document.getElementById('totalMonth');
+            const totalMonthHalfElem = document.getElementById('totalMonthHalf');
+            const totalSelectedElem = document.getElementById('totalSelected');
+            
+            // المصاريف الثابتة (بدون قسيمة السيارة الجديدة)
+            const fixedCosts = {
+                exchange: 20000,
+                expertise: 10000,
+                transfer: 6000,
+                handling: 5000,
+                unloading: 6000,
+                transport: 5000,
+                transitaire: 50000
+            };
+            
+            // حساب مجموع المصاريف الثابتة
+            const totalFixedCosts = Object.values(fixedCosts).reduce((sum, cost) => sum + cost, 0);
+            
+            // دالة لتنسيق الأرقام بفواصل
+            function formatNumber(num) {
+                return new Intl.NumberFormat('ar-DZ').format(num);
+            }
+            
+            // دالة لحساب التكاليف بناء على المدخلات
+            function calculateCosts() {
+                const storageDaily = parseInt(storageCostInput.value) || 0;
+                const penaltyDaily = parseInt(penaltyCostInput.value) || 0;
+                const customsCost = parseInt(customsCostInput.value) || 0;
+                
+                // حساب التكاليف للمدد المختلفة
+                const less15DaysTotal = totalFixedCosts;
+                const threeWeeksTotal = totalFixedCosts + (6 * (storageDaily + penaltyDaily));
+                const monthTotal = totalFixedCosts + (15 * (storageDaily + penaltyDaily));
+                const monthHalfTotal = totalFixedCosts + (30 * (storageDaily + penaltyDaily));
+                
+                // تحديث القيم في الجدول
+                totalLess15DaysElem.textContent = formatNumber(less15DaysTotal);
+                totalThreeWeeksElem.textContent = formatNumber(threeWeeksTotal);
+                totalMonthElem.textContent = formatNumber(monthTotal);
+                totalMonthHalfElem.textContent = formatNumber(monthHalfTotal);
+                
+                // الحصول على الفترة المختارة
+                let selectedPeriodTotal = less15DaysTotal;
+                for (const radio of periodRadios) {
+                    if (radio.checked) {
+                        switch(radio.value) {
+                            case 'less15Days':
+                                selectedPeriodTotal = less15DaysTotal;
+                                break;
+                            case 'threeWeeks':
+                                selectedPeriodTotal = threeWeeksTotal;
+                                break;
+                            case 'month':
+                                selectedPeriodTotal = monthTotal;
+                                break;
+                            case 'monthHalf':
+                                selectedPeriodTotal = monthHalfTotal;
+                                break;
+                        }
+                        break;
+                    }
+                }
+                
+                // حساب المجموع الكلي مع الخيارات المحددة
+                let selectedTotal = selectedPeriodTotal + customsCost;
+                
+                // إضافة قسيمة السيارة الجديدة إذا تم اختيارها
+                if (includeNewCarFeeCheckbox.checked) {
+                    selectedTotal += 150000;
+                }
+                
+                // إضافة غرامة عدم التسجيل إذا تم اختيارها
+                if (includeRegistrationPenaltyCheckbox.checked) {
+                    selectedTotal += 37500; // متوسط قيمة الغرامة (37500 + 50000) / 2
+                }
+                
+                // تحديث المجموع الكلي المختار
+                totalSelectedElem.textContent = formatNumber(selectedTotal);
+            }
+            
+            // إضافة مستمعات الأحداث لحساب التكاليف تلقائياً عند تغيير القيم
+            storageCostInput.addEventListener('input', calculateCosts);
+            penaltyCostInput.addEventListener('input', calculateCosts);
+            customsCostInput.addEventListener('input', calculateCosts);
+            includeNewCarFeeCheckbox.addEventListener('change', calculateCosts);
+            includeRegistrationPenaltyCheckbox.addEventListener('change', calculateCosts);
+            
+            // إضافة مستمعات الأحداث لاختيار الفترة
+            for (const radio of periodRadios) {
+                radio.addEventListener('change', calculateCosts);
+            }
+            
+            // حساب التكاليف الأولية عند تحميل الصفحة
+            calculateCosts();
+        });
+    </script>
+</body>
+</html>
